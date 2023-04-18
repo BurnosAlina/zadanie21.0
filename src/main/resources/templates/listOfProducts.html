@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista produktów </title>
+</head>
+<body>
+<h1>Lista produktów:</h1>
+<ul>
+    <li th:each="product: ${products}"
+        th:text="${product.name + ', cena: ' + product.price + 'zł, ' + product.category.getDescriptionPl()}"></li>
+</ul>
+<p th:text="|Cena wszystkich produktów: ${totalPrice}zł|"></p>
+</body>
+</html>
