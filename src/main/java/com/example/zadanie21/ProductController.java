@@ -1,4 +1,4 @@
-package com.example.zadanie21_00;
+package com.example.zadanie21;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,24 +19,22 @@ public class ProductController {
 
     @GetMapping("/")
     String home(Model model) {
-        model.addAttribute("categories", Category.values());
         return "index";
     }
 
     @GetMapping("/list")
     String showInfo(Model model,
                     @RequestParam(required = false) Category category) {
-        List<Product> products = productRepository.getProducts();
-        double totalPrice = productRepository.calculateTotalPrice();
+        List<Product> products;
         if (category != null) {
-            Category[] categories = Category.values();
-            for (Category category1 : categories) {
-                if (category == category1) {
-                    products = productRepository.getProductsOfCategory(category1);
-                    totalPrice = productRepository.calculateTotalPriceForCategory(category1);
-                }
-            }
+            products = productRepository.getProductsOfCategory(category);
+        } else {
+            products = productRepository.getProducts();
         }
+        double totalPrice = products.stream()
+                .map(Product::getPrice)
+                .reduce(Double::sum)
+                .orElse(0.);
         model.addAttribute("products", products);
         model.addAttribute("totalPrice", totalPrice);
         return "listOfProducts";
@@ -45,15 +43,8 @@ public class ProductController {
     @PostMapping("/add")
     String addProduct(@RequestParam String name,
                       @RequestParam double price,
-                      @RequestParam String descriptionPl,
+                      @RequestParam Category category,
                       Model model) {
-        Category[] values = Category.values();
-        Category category = null;
-        for (Category value : values) {
-            if (value.getDescriptionPl().equals(descriptionPl)) {
-                category = value;
-            }
-        }
         Product product = new Product(name, price, category);
         productRepository.addProduct(product);
         model.addAttribute("product", product);

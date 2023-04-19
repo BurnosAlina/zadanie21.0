@@ -9,7 +9,7 @@
 <div>
     <a href="/list">Wyświetl wszystkie produkty</a>
 </div>
-<div th:each="category: ${categories}">
+<div th:each="category: ${T(com.example.zadanie21.Category).values()}">
     <a th:href="@{|/list?category=${category}|}"
        th:text="|Wyświetl produkty z kategorii ${category.getDescriptionPl()}|">wyświetl produkty z kategorii art.
         spożywcze</a>
@@ -27,8 +27,10 @@
     <div>
         <label for="category">Kategoria</label>
         <div>
-            <select id="category" name="descriptionPl">
-                <option th:each="categorie: ${categories}" th:text="${categorie.getDescriptionPl()}"></option>
+            <select id="category" name="category">
+                <option th:each="category: ${T(com.example.zadanie21.Category).values()}"
+                        th:value="${category.name}"
+                        th:text="${category.getDescriptionPl()}"></option>
             </select>
         </div>
     </div>

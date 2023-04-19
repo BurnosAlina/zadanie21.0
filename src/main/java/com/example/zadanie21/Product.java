@@ -1,4 +1,4 @@
-package com.example.zadanie21_00;
+package com.example.zadanie21;
 
 public class Product {
 

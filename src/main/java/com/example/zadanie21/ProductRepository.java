@@ -1,4 +1,4 @@
-package com.example.zadanie21_00;
+package com.example.zadanie21;
 
 import org.springframework.stereotype.Repository;
 
@@ -29,24 +29,6 @@ public class ProductRepository {
             }
         }
         return products1;
-    }
-
-    double calculateTotalPrice() {
-        double sum = 0;
-        for (Product product : products) {
-            sum += product.getPrice();
-        }
-        return sum;
-    }
-
-    double calculateTotalPriceForCategory(Category category) {
-        double sum = 0;
-        for (Product product : products) {
-            if (product.getCategory() == category) {
-                sum += product.getPrice();
-            }
-        }
-        return sum;
     }
 
     void addProduct(Product product) {
